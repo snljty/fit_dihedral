@@ -1,0 +1,10 @@
+
+verbosity 1
+source leaprc.protein.ff14SB
+source leaprc.gaff
+mods = loadamberparams mol_AC.frcmod
+UNL = loadmol2 mol_user_gaff.mol2
+check UNL
+saveamberparm UNL mol_AC.prmtop mol_AC.inpcrd
+saveoff UNL mol_AC.lib
+quit

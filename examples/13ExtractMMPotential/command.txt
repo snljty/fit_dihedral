@@ -1,0 +1,1 @@
+gmx energy -f scan.edr -o mm_potential.xvg

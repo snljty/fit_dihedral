@@ -1,0 +1,61 @@
+# This file was created Tue Apr 26 17:46:15 2022
+# Created by:
+#                 :-) GROMACS - gmx energy, 2020.6-MODIFIED (-:
+# 
+# Executable:   C:\gmx-2020.6\bin\gmx.exe
+# Data prefix:  C:\gmx-2020.6
+# Working dir:  C:\Users\iccas\Desktop\example\13ExtractMMPotential
+# Command line:
+#   gmx energy -f scan.edr -o mm_potential.xvg
+# gmx energy is part of G R O M A C S:
+#
+# GROwing Monsters And Cloning Shrimps
+#
+@    title "GROMACS Energies"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "(kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Potential"
+    0.000000   98.262665
+    0.100000  115.048393
+    0.200000  133.693375
+    0.300000  153.656464
+    0.400000  174.319717
+    0.500000  193.816879
+    0.600000  206.691711
+    0.700000  205.084579
+    0.800000  190.889374
+    0.900000  172.196655
+    1.000000  152.560242
+    1.100000  133.619537
+    1.200000  116.204857
+    1.300000  100.898598
+    1.400000   88.360107
+    1.500000   80.887466
+    1.600000   82.490433
+    1.700000   91.895248
+    1.800000  105.377716
+    1.900000  121.472466
+    2.000000  139.469635
+    2.100000  158.689453
+    2.200000  178.271667
+    2.300000  196.117111
+    2.400000  207.249542
+    2.500000  204.016785
+    2.600000  187.976273
+    2.700000  167.843124
+    2.800000  147.215118
+    2.900000  127.668297
+    3.000000  109.545197
+    3.100000   93.469521
+    3.200000   80.268234
+    3.300000   72.122757
+    3.400000   73.814323
+    3.500000   83.948479
+    3.600000   98.171486

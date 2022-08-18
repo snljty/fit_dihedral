@@ -1,0 +1,1 @@
+gmx grompp -f scan.mdp -c mol_box.gro -p mol_GMX.top -o scan.tpr

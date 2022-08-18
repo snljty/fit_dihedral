@@ -1,0 +1,61 @@
+# This file was created Tue Apr 26 18:27:50 2022
+# Created by:
+#                 :-) GROMACS - gmx energy, 2020.6-MODIFIED (-:
+# 
+# Executable:   C:\gmx-2020.6\bin\gmx.exe
+# Data prefix:  C:\gmx-2020.6
+# Working dir:  C:\Users\iccas\Desktop\example\17Recompare
+# Command line:
+#   gmx energy -f scan.edr -o mm_potential.xvg -nobackup
+# gmx energy is part of G R O M A C S:
+#
+# Gnomes, ROck Monsters And Chili Sauce
+#
+@    title "GROMACS Energies"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "(kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Potential"
+    0.000000   73.045265
+    0.100000   73.246239
+    0.200000   74.584534
+    0.300000   76.656586
+    0.400000   78.938774
+    0.500000   80.958870
+    0.600000   82.199524
+    0.700000   82.115402
+    0.800000   80.449112
+    0.900000   78.271767
+    1.000000   76.117676
+    1.100000   74.187248
+    1.200000   72.944778
+    1.300000   72.738564
+    1.400000   73.170792
+    1.500000   73.508278
+    1.600000   73.484581
+    1.700000   72.987251
+    1.800000   72.636162
+    1.900000   73.238571
+    2.000000   74.775436
+    2.100000   76.793716
+    2.200000   79.000793
+    2.300000   81.016426
+    2.400000   82.240082
+    2.500000   82.004242
+    2.600000   80.383133
+    2.700000   78.253159
+    2.800000   75.905273
+    2.900000   74.083893
+    3.000000   73.051682
+    3.100000   73.139877
+    3.200000   73.793671
+    3.300000   73.980881
+    3.400000   73.958260
+    3.500000   73.532936
+    3.600000   72.958534

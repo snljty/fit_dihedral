@@ -1,0 +1,1 @@
+gmx editconf -f mol_GMX.gro -o mol_box.gro -box 15

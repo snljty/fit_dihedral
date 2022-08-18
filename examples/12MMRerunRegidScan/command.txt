@@ -1,0 +1,1 @@
+gmx mdrun -pin on -nt 1 -bonded cpu -nb cpu -pme cpu -v -deffnm scan -rerun traj.trr

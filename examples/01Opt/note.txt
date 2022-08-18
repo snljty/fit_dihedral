@@ -1,0 +1,1 @@
+Grimme's D3 dispersion correction with Becke-Johnson damping should be added to the full optimization task.

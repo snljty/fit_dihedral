@@ -1,0 +1,2 @@
+for atomic charges used for molecular dynamics with GAFF/GAFF2 force field in liquid state, using RESP2(0.5) is recommended, hence we do single point energy tasks for both vaccum and solvated with implicit solvent model, and then take the average value.
+do not use post-HF or double-hybrid functionals in this step!

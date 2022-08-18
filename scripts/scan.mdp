@@ -1,0 +1,30 @@
+define =
+integrator = md
+dt         = 0.002
+nsteps     = 100000
+comm-grps  = system
+energygrps = 
+;
+nstxout = 0
+nstvout = 0
+nstfout = 0
+nstlog  = 500
+nstenergy = 500
+nstxout-compressed = 1000
+compressed-x-grps  = system
+;
+pbc = xyz
+cutoff-scheme = Verlet
+coulombtype   = cut-off
+rcoulomb      = 4.0
+vdwtype       = cut-off
+rvdw          = 4.0
+DispCorr      = no
+;
+gen_vel  = no
+gen_temp = 298.15
+gen_seed = -1
+;
+freezegrps  = 
+freezedim   = 
+constraints = hbonds

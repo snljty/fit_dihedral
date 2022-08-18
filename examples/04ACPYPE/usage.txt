@@ -1,0 +1,2 @@
+obabel -i fch mol_opt.fch -o mol2 -O mol.mol2
+acpype -i mol.mol2 -c user -k maxcyc=0 -d
