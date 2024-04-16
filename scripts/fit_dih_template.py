@@ -44,6 +44,36 @@ with open ("fit_result.txt", "wt") as fl:
     print("phase = {phase:10.6f}".format(phase = p_opt[-1]))
     print("phase = {phase:10.6f}".format(phase = p_opt[-1]), file = fl)
 
+
+if os.path.isfile("dihedral.txt"):
+    with open("dihedral.txt") as ifl:
+        atom1, atom2, atom3, atom4 = map(int, ifl.readline().split())
+else:
+    ifl_names = [_ for _ in os.listdir() if os.path.isfile(_) and _.endswith(".out")]
+    if len(ifl_names) == 1:
+        with open(* ifl_names) as ifl:
+            for line in ifl:
+                if "The following ModRedundant input section has been read:" in line:
+                    break
+            line = ifl.readline().split()
+            assert line[0] == "D" and line[5] == "S"
+            atom1, atom2, atom3, atom4 = map(int, line[1:5])
+    else:
+        ifl_names = [_ for _ in os.listdir() if os.path.isfile(_) and _.endswith(".gjf")]
+        if len(ifl_names) == 1:
+            with open(* ifl_names) as ifl:
+                line = ifl.readlines()[-2].split()
+                if line[0] != "D":
+                    line.insert(0, "D")
+                assert line[5] == "S"
+                atom1, atom2, atom3, atom4 = map(int, line[1:5])
+if "atom1" in dir():
+    print()
+    print("You can add these lines to the itp/top file:")
+    for i in np.arange(1, len(p_opt) - 1):
+        print("  {atom1:3d}     {atom2:3d}     {atom3:3d}     {atom4:3d}         {functype:d}      {phase:8.3f}     {k:9.5f}   {i:2d}     ; ".format(\
+            atom1 = atom1, atom2 = atom2, atom3 = atom3, atom4 = atom4, functype = 9, phase = p_opt[-1], k = p_opt[i], i = i))
+
 if not os.path.exists("qm_scan_energy.txt") or not os.path.exists("mm_potential.xvg"):
     exit()
 
@@ -57,7 +87,7 @@ print('Please note that you need to guarantee that these files correspond to the
 print("and the mm_potential.xvg is from and rigid scan of force field WITHOUT the dihedral to be fitted.", file = sys.stderr)
 y_qm = np.loadtxt("qm_scan_energy.txt")
 y_mm_nodih = np.loadtxt("mm_potential.xvg", unpack = True, comments = ["#", "@"], usecols = 1)
-x_sort_seq = np.loadtxt("x_sort_seq.txt", dtype = np.int64)
+x_sort_seq = np.loadtxt("x_sort_seq.txt", dtype = int)
 y_qm = y_qm[x_sort_seq]
 y_mm_nodih = y_mm_nodih[x_sort_seq]
 y_mm = y_mm_nodih + y_fit
@@ -72,8 +102,8 @@ fig, ax = plt.subplots()
 ax.plot(x, y_qm, color = "red", marker = "o", markersize = 5, label = "QM")
 ax.plot(x, y_mm, color = "blue", marker = "o", markersize = 5, label = "MM")
 ax.legend()
-# ax.set_xticks(np.linspace(-180.0, 180.0, x.size // 3 + 1))
-ax.set_xticks(np.linspace(0.0, 180.0, x.size // 3 + 1))
+ax.set_xticks(np.linspace(-180.0, 180.0, 9))
+# ax.set_xticks(np.linspace(0.0, 180.0, 7))
 ax.set_xlabel(x_label)
 ax.set_ylabel("Relative energy (kJ/mol)")
 ax.set_title(title)
