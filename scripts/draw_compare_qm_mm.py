@@ -7,11 +7,14 @@ import matplotlib.pyplot as plt
 
 plt.rc("font", size = 14)
 
-start_value = -1.10287 # the start dihedral
-num_scan = 18
-step_value = 10.0
-x = np.arange(num_scan + 1).astype(np.float64) * step_value + start_value
-x = (x + 180.0) % 360 - 180.0
+if os.path.isfile("x.txt"):
+    x = np.loadtxt("x.txt")
+else:
+    start_value = -1.10287 # the start dihedral
+    num_scan = 36
+    step_value = 10.0
+    x = np.arange(num_scan + 1).astype(np.float64) * step_value + start_value
+    x = (x + 180.0) % 360 - 180.0
 
 num_dims = 3
 
