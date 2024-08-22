@@ -101,7 +101,6 @@ if "x" not in dir():
 num_dims = 3
 
 title = "structure"
-print(f"title = {title:s}")
 x_label = u"dihedral (\u00b0)"
 
 y_qm = np.loadtxt("qm_scan_energy.txt", unpack = True)
