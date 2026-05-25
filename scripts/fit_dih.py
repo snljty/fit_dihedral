@@ -15,6 +15,8 @@ if len(sys.argv) - 1 > 0:
 else:
     nterms = nterms_default
 
+use_phase = False
+
 x, y = np.loadtxt("energy_diff.txt", unpack = True, comments = "#")
 
 def func(val, c, phase, *k):
@@ -23,9 +25,21 @@ def func(val, c, phase, *k):
         ret += k_i * (1 + np.cos(np.radians(i * val - phase)))
     return ret
 
-p_opt, p_cov = curve_fit(func, x, y, p0=np.zeros((2 + nterms,), dtype=np.double))
+def func_no_phase(val, c, *k):
+    ret = c
+    for i, k_i in enumerate(k, 1):
+        ret += k_i * (1 + np.cos(np.radians(i * val)))
+    return ret
+
+if use_phase:
+    p_opt, p_cov = curve_fit(func, x, y, p0=np.zeros((2 + nterms,), dtype=np.double))
+else:
+    p_opt, p_cov = curve_fit(func_no_phase, x, y, p0=np.zeros((1 + nterms,), dtype=np.double))
 p_err = np.sqrt(np.diag(p_cov))
-y_fit = list(map((lambda _: func(_, * p_opt)), x))
+if use_phase:
+    y_fit = list(map((lambda _: func(_, * p_opt)), x))
+else:
+    y_fit = list(map((lambda _: func_no_phase(_, * p_opt)), x))
 y_fit_diff = y_fit - y
 np.savetxt("fit_diff.txt", y_fit_diff, fmt = "%12.7f")
 
@@ -42,13 +56,17 @@ np.savetxt("fit_diff.txt", y_fit_diff, fmt = "%12.7f")
 # plt.show()
 
 with open ("fit_result.txt", "wt") as fl:
-    k = p_opt[2:].copy()
-    phase = p_opt[1]
+    if use_phase:
+        k = p_opt[2:].copy()
+        phase = p_opt[1]
+    else:
+        k = p_opt[1:].copy()
     for i, k_i in enumerate(k, 1):
         print("k[{i:2d}] = {k:10.6f}".format(i = i, k = k_i))
         print("k[{i:2d}] = {k:10.6f}".format(i = i, k = k_i), file = fl)
-    print("phase = {phase:10.6f}".format(phase = phase))
-    print("phase = {phase:10.6f}".format(phase = phase), file = fl)
+    if use_phase:
+        print("phase = {phase:10.6f}".format(phase = phase))
+        print("phase = {phase:10.6f}".format(phase = phase), file = fl)
 
 if not os.path.exists("qm_scan_energy.txt") or not os.path.exists("mm_potential.xvg"):
     exit()
@@ -78,8 +96,8 @@ fig, ax = plt.subplots()
 ax.plot(x, y_qm, color = "red", marker = "o", markersize = 5, label = "QM")
 ax.plot(x, y_mm, color = "blue", marker = "o", markersize = 5, label = "MM")
 ax.legend()
-ax.set_xticks(np.linspace(-180.0, 180.0, x.size // 3 + 1))
-# ax.set_xticks(np.linspace(0.0, 180.0, x.size // 3 + 1))
+# ax.set_xticks(np.linspace(-180.0, 180.0, x.size // 3 + 1))
+ax.set_xticks(np.linspace(0.0, 180.0, x.size // 3 + 1))
 ax.set_xlabel(x_label)
 ax.set_ylabel("Relative energy (kJ/mol)")
 ax.set_title(title)

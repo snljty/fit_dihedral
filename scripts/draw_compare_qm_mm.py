@@ -4,8 +4,12 @@
 import os, sys
 import numpy as np
 import matplotlib.pyplot as plt
+# import inspect, IPython
+# IPython.embed(header=f"Debug: at line {inspect.currentframe().f_lineno:d} of file {os.path.split(__file__)[-1]:s}:")
 
 plt.rc("font", size = 14)
+
+num_dims = 3
 
 # auxiliary
 def Get_vector_angle(p: np.double, q: np.double) -> np.double:
@@ -33,9 +37,14 @@ def Get_dihedral(a: np.double, b: np.double, c: np.double, d: np.double) -> np.d
     # a, b, c, d are points, return in unit degree
     assert a.dtype == np.double and b.dtype == np.double and c.dtype == np.double and d.dtype == np.double
     assert a.shape == (num_dims,) and b.shape == (num_dims,) and c.shape == (num_dims,) and d.shape == (num_dims,)
-    p = np.cross(b - a, b - c)
-    q = np.cross(c - d, b - c)
-    return Get_vector_angle(p, q) * (-1.0 if np.dot(p, c - d) < 0.0 else 1.0)
+    v1 = b - a
+    v2 = c - b
+    v3 = d - c
+    p = np.cross(v1, v2)
+    q = np.cross(v2, v3)
+    y_val = np.dot(np.cross(p, q), v2) / np.linalg.norm(v2)
+    x_val = np.dot(p, q)
+    return np.degrees(np.arctan2(y_val, x_val))
 
 if os.path.isfile("x.txt"):
     x = np.loadtxt("x.txt")
@@ -92,13 +101,11 @@ if "x" not in dir():
         x = np.array(x, dtype = np.double)
     else:
         print("Note: using dihedrals set in this script ({:s}).".format(sys.argv[0]))
-        start_value = -1.10287 # the start dihedral
+        start_value = 0. # the start dihedral
         num_scan = 36
         step_value = 10.0
         x = np.arange(num_scan + 1).astype(np.float64) * step_value + start_value
         x = (x + 180.0) % 360 - 180.0
-
-num_dims = 3
 
 title = "structure"
 x_label = u"dihedral (\u00b0)"
@@ -122,8 +129,8 @@ fig, ax = plt.subplots()
 ax.plot(x, y_qm, color = "red", marker = "o", markersize = 5, label = "QM")
 ax.plot(x, y_mm, color = "blue", marker = "o", markersize = 5, label = "MM")
 ax.legend()
-ax.set_xticks(np.linspace(-180.0, 180.0, 9))
-# ax.set_xticks(np.linspace(0.0, 180.0, 7))
+# ax.set_xticks(np.linspace(-180.0, 180.0, 9))
+ax.set_xticks(np.linspace(0.0, 180.0, 7))
 ax.set_xlabel(x_label)
 ax.set_ylabel("Relative energy (kJ/mol)")
 ax.set_title(title)

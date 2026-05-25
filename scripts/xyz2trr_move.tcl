@@ -1,6 +1,6 @@
 #! /bin/tclsh
 mol new traj.xyz type xyz
-set bsize 102.3
+set bsize 150.
 set mvlen [expr $bsize / 2]
 set sel [atomselect top all]
 set nframes [molinfo top get numframes]
