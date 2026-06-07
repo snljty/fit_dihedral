@@ -4,9 +4,10 @@ set bsize 150.
 set mvlen [expr $bsize / 2]
 set sel [atomselect top all]
 set nframes [molinfo top get numframes]
+set mvvec [vecsub [list $mvlen $mvlen $mvlen] [lindex [molinfo top get center] 0]]
 for {set i 0} {$i < $nframes} {incr i} {
     animate goto $i
-    $sel moveby "$mvlen $mvlen $mvlen"
+    $sel moveby "$mvvec"
 }
 pbc set "$bsize $bsize $bsize" -all
 # mol modstyle 0 top CPK 1.0 0.3 25 25
