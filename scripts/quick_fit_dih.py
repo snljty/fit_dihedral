@@ -29,13 +29,36 @@ k = np.linalg.solve(X.T @ X, X.T @ y)
 k[0] = - sum(k[1:])
 
 with open("fit_result.txt", "w") as ofile:
-    print("# phase        kd        pn")
-    print("# phase        kd        pn", file=ofile)
+    print("; func    phase        kd        pn")
+    print("; func    phase        kd        pn", file=ofile)
+    funct: int = 9
     for i in range(1 + n):
-        print(f"{phase:6.1f}     {k[i]:10.6f}    {i:2d}")
-        print(f"{phase:6.1f}     {k[i]:10.6f}    {i:2d}", file=ofile)
+        print(f"     {funct:1d}    {phase:6.1f}     {k[i]:10.6f}    {i:2d}")
+        print(f"     {funct:1d}    {phase:6.1f}     {k[i]:10.6f}    {i:2d}", file=ofile)
 
 fit = 2. * k[0] + sum([k[i] * (1. + np.cos(i * angle_rad)) for i in range(1, 1 + n)])
+
+def multiple_to_RB(k: np.ndarray) -> np.ndarray:
+    assert k.size() == 6
+    C = np.zeros((len(k),), dtype=np.double)
+    C[0] = 2. * k[0] + k[1] + k[3] + 2. * k[4] + k[5]
+    C[1] = - k[1] + 3. * k[3] - 5. * k[5]
+    C[2] = 2. * k[2] - 8. *  k[4]
+    C[3] = -4. * k[3] + 20. * k[5]
+    C[4] = 8. * k[4]
+    C[5] = -16. * k[5]
+    return C
+
+if n == 5:
+    print()
+    print("# Ryckaert-Bellemans:")
+    funct: int = 3
+    C = multiple_to_RB(k)
+    with open("fit_result_RB.txt", "w") as ofile:
+        print("; func    C0         C1         C2         C3         C4         C5")
+        print("; func    C0         C1         C2         C3         C4         C5", file=ofile)
+        print(f"     {funct:1d}", * map("{:11.5f}".format, C), sep="")
+        print(f"     {funct:1d}", * map("{:11.5f}".format, C), sep="", file=ofile)
 
 mm_fitted = mm + fit
 
