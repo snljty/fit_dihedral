@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 
 angle, qm = np.loadtxt("QM.txt", unpack=True)
 t, mm = np.loadtxt("MM.xvg", unpack=True, comments=["#", "@"])
-qm -= qm[0]
+qm -= qm.mean()
 qm *= 2625.5
-mm -= mm[0]
+mm -= mm.mean()
 
 fig, ax = plt.subplots()
 

@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-n: int = 8
+n: int = 5
 if len(sys.argv) - 1 != 0:
     n = int(sys.argv[1])
 
@@ -24,9 +24,9 @@ X = np.zeros((len(mm), n + 1), dtype=np.double)
 for i in range(1, 1 + n):
     X[:, i] = np.cos(i * angle_rad)
 X[:, 0] = 1.
+X += 1.
 
 k = np.linalg.solve(X.T @ X, X.T @ y)
-k[0] = - sum(k[1:])
 
 with open("fit_result.txt", "w") as ofile:
     print("; func    phase        kd        pn")
@@ -36,10 +36,10 @@ with open("fit_result.txt", "w") as ofile:
         print(f"     {funct:1d}    {phase:6.1f}     {k[i]:10.6f}    {i:2d}")
         print(f"     {funct:1d}    {phase:6.1f}     {k[i]:10.6f}    {i:2d}", file=ofile)
 
-fit = 2. * k[0] + sum([k[i] * (1. + np.cos(i * angle_rad)) for i in range(1, 1 + n)])
+fit = sum([k[i] * (1. + np.cos(i * angle_rad)) for i in range(1 + n)])
 
 def multiple_to_RB(k: np.ndarray) -> np.ndarray:
-    assert k.size() == 6
+    assert k.size == 6
     C = np.zeros((len(k),), dtype=np.double)
     C[0] = 2. * k[0] + k[1] + k[3] + 2. * k[4] + k[5]
     C[1] = - k[1] + 3. * k[3] - 5. * k[5]
@@ -54,6 +54,8 @@ if n == 5:
     print("# Ryckaert-Bellemans:")
     funct: int = 3
     C = multiple_to_RB(k)
+    cos_phi = np.cos(angle_rad - np.pi)
+    fit = sum([C[i] * np.power(cos_phi, i) for i in range(1 + n)])
     with open("fit_result_RB.txt", "w") as ofile:
         print("; func    C0         C1         C2         C3         C4         C5")
         print("; func    C0         C1         C2         C3         C4         C5", file=ofile)
